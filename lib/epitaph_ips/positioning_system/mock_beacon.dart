@@ -29,7 +29,7 @@ class MockBeacon extends Beacon {
         _metersToRSSI(position.toVector().distanceTo(pointForAd.toVector()));
     int deviation = _rssiDeviation(calcRssi.toInt());
     int finalRssi = calcRssi.toInt() - deviation;
-    super.rssiUpdate(finalRssi);
+    super.rssiUpdate(finalRssi, measuredPower);
   }
 
   /// Reverse calculates from a meter value to the needed RSSI value.

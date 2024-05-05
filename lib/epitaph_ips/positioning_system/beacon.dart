@@ -49,16 +49,16 @@ abstract class Beacon {
   bool get isModified => _rssi != double.negativeInfinity;
 
   /// updated the [rssi] value stored in the class. RSSI stands for Received Signal Strength Indication.
-  void rssiUpdate(int input) {
+  void rssiUpdate(int input, int measuredPower) {
     assert(input < 0, "RSSI cannot be greater than zero");
     _rssi = input.toDouble();
-    double distance = _rssiToMeters(_rssi);
+    double distance = _rssiToMeters(_rssi, measuredPower);
 
     _distanceToUser = distance;
   }
 
   /// Calculates the distance in m from user to beacon with its [rssi] value
-  double _rssiToMeters(double rssi) {
+  double _rssiToMeters(double rssi, int measuredPower) {
     return pow(10, (measuredPower - rssi) / (10 * environmentalFactor))
         as double;
   }
@@ -84,7 +84,7 @@ abstract class Beacon {
 /// A standard configuration class for beacons, with needed constant values.
 class BeaconsConfiguration {
   const BeaconsConfiguration(
-      {this.measuredPower = -57,
+      {this.measuredPower = -65,
       this.environmentalFactor = 2,
       this.advertisementInterval = 0.3})
       : assert(measuredPower < 0, 'measuredPower cannot be greater than 0'),
